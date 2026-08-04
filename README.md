@@ -497,9 +497,9 @@ npm audit fix
 
 ## 👨‍💻 Author
 
-**Shahrier Shanto**
+**Shahrier Emon Shanto**
 
-- GitHub: `akira2049`
+- GitHub: `cloud-pantheon`
 - Computer Science student at Independent University, Bangladesh
 
 ---
