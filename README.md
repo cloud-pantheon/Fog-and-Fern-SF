@@ -420,7 +420,7 @@ Before accepting real payments:
 
 ### 🌿 Plant Catalog
 
-![Fog & Fern plant catalog](screenshots/plants.PNG)
+![Fog & Fern plant catalog](screenshots/Plants.PNG)
 
 ### 🛒 Shopping Cart
 
