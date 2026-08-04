@@ -530,7 +530,7 @@ npm audit fix
 
 **Shahrier Emon Shanto**
 
-- GitHub: `cloud-pantheon`
+- GitHub: `https://github.com/cloud-pantheon`
 - Computer Science student at Independent University, Bangladesh
 
 ---
