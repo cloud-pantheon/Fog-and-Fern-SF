@@ -1,0 +1,81 @@
+<section class="order-details-page">
+  <div class="container order-details-shell">
+    <a class="order-back-link" href="/account/orders"><i class="fa-solid fa-arrow-left"></i> Back to orders</a>
+
+    <header class="order-details-header">
+      <div>
+        <span class="order-details-kicker">Order details</span>
+        <h1><%= order.order_number %></h1>
+        <p>Placed <%= new Date(order.created_at + 'Z').toLocaleString('en-US',{month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}) %></p>
+      </div>
+      <span class="order-status-pill"><i class="fa-solid fa-check"></i> <%= order.status %></span>
+    </header>
+
+    <div class="order-details-grid">
+      <main>
+        <section class="order-summary-card">
+          <div class="order-card-heading">
+            <div>
+              <span class="order-details-kicker">Purchase</span>
+              <h2>Order summary</h2>
+            </div>
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+
+          <div class="order-summary-items">
+            <% items.forEach(item => { %>
+              <div class="order-summary-item">
+                <div>
+                  <strong><%= item.product_name %></strong>
+                  <span>Quantity: <%= item.quantity %> · $<%= item.unit_price.toFixed(2) %> each</span>
+                </div>
+                <b>$<%= item.line_total.toFixed(2) %></b>
+              </div>
+            <% }) %>
+          </div>
+
+          <div class="order-summary-totals">
+            <div><span>Subtotal</span><b>$<%= order.subtotal.toFixed(2) %></b></div>
+            <div><span>Sales tax</span><b>$<%= (order.tax || 0).toFixed(2) %></b></div>
+            <div><span>Delivery</span><b><%= order.delivery_fee ? '$' + order.delivery_fee.toFixed(2) : 'Free' %></b></div>
+            <div class="order-summary-grand"><span>Total</span><b>$<%= order.total.toFixed(2) %></b></div>
+          </div>
+        </section>
+
+        <section class="order-information-card">
+          <div class="order-info-block">
+            <i class="fa-solid <%= order.fulfillment === 'pickup' ? 'fa-store' : 'fa-truck-fast' %>"></i>
+            <div>
+              <span class="order-details-kicker"><%= order.fulfillment === 'pickup' ? 'Pickup' : 'Delivery' %></span>
+              <h3><%= order.fulfillment === 'pickup' ? 'Fog & Fern, San Francisco' : order.customer_name %></h3>
+              <p><%- order.fulfillment === 'pickup' ? '1455 Market Street<br>San Francisco, CA' : `${order.address}<br>${order.city}, CA ${order.zip_code}` %></p>
+            </div>
+          </div>
+          <div class="order-info-block">
+            <i class="fa-regular fa-user"></i>
+            <div>
+              <span class="order-details-kicker">Contact</span>
+              <h3><%= order.customer_name %></h3>
+              <p><%= order.email %><br><%= order.phone %></p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="order-details-side">
+        <section class="order-payment-card">
+          <div class="order-payment-icon"><i class="fa-solid fa-credit-card"></i></div>
+          <span class="order-details-kicker">Payment</span>
+          <h2><%= order.card_brand ? order.card_brand.charAt(0)+order.card_brand.slice(1).toLowerCase() : order.payment_method %> <%= order.card_last_four ? '•••• ' + order.card_last_four : '' %></h2>
+          <p><%= order.payment_method === 'Square card' ? 'Processed securely with Square' : order.payment_method %></p>
+          <span class="order-paid-pill"><span></span><%= order.payment_status === 'COMPLETED' ? 'Paid' : order.payment_status %></span>
+          <div class="order-payment-total"><span>Amount paid</span><strong>$<%= order.total.toFixed(2) %></strong></div>
+        </section>
+
+        <a class="order-receipt-button" href="/checkout/receipt/<%= order.id %>"><i class="fa-solid fa-receipt"></i><span><strong>View branded receipt</strong><small>Print or save your full receipt</small></span><i class="fa-solid fa-arrow-right"></i></a>
+
+        <!--<a class="order-help-card" href="mailto:support@fogandfern.com?subject=Help%20with%20order%20<%= order.order_number %>"><i class="fa-regular fa-circle-question"></i><span><strong>Need help?</strong><small>Contact our plant care team</small></span></a>-->
+      </aside>
+    </div>
+  </div>
+</section>

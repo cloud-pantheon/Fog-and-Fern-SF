@@ -1,0 +1,61 @@
+<section class="page-hero compact"><div class="container"><span class="eyebrow">Secure checkout</span><h1>Complete your order</h1></div></section>
+<section class="section">
+  <div class="container">
+    <form id="checkout-form" class="checkout-layout" novalidate>
+      <div class="form-card">
+        <h2>Contact and fulfillment</h2>
+        <div class="form-grid">
+          <label>Full name<input name="customer_name" autocomplete="name" required value="<%= user.full_name || '' %>"></label>
+          <label>Email<input type="email" name="email" autocomplete="email" required value="<%= user.email || '' %>"></label>
+          <label>Phone<input name="phone" autocomplete="tel" required value="<%= user.phone || '' %>"></label>
+          <label>Fulfillment<select name="fulfillment" id="fulfillment"><option value="delivery">Local delivery</option><option value="pickup">Store pickup</option></select></label>
+          <label class="wide delivery-field">Street address<input name="address" autocomplete="street-address"></label>
+          <label class="delivery-field">City<input name="city" value="San Francisco" autocomplete="address-level2"></label>
+          <label class="delivery-field">ZIP code<input name="zip_code" autocomplete="postal-code"></label>
+          <label class="wide">Order notes<textarea name="notes" placeholder="Delivery instructions, gift message, or plant-care questions"></textarea></label>
+        </div>
+
+        <div class="payment-panel">
+          <div class="payment-heading">
+            <div><span class="eyebrow">Payment</span><h2>Choose how to pay</h2></div>
+            <div class="card-brands"><i class="fa-brands fa-cc-visa"></i><i class="fa-brands fa-cc-mastercard"></i><i class="fa-brands fa-cc-amex"></i></div>
+          </div>
+
+          <% if (squareConfigured) { %>
+            <label class="payment-choice active"><input type="radio" name="payment_method" value="Square card" checked><span><b>Credit or debit card</b><small>Securely processed by Square</small></span></label>
+            <div id="square-card-container"><div id="card-container"></div></div>
+          <% } else { %>
+            <div class="payment-warning"><i class="fa-solid fa-triangle-exclamation"></i><span>Square is not configured yet. Add the credentials from <code>.env.example</code> to your <code>.env</code> file.</span></div>
+          <% } %>
+
+          <label class="payment-choice"><input type="radio" name="payment_method" value="Pay on delivery" <%= squareConfigured ? '' : 'checked' %>><span><b>Pay on delivery or pickup</b><small>Pay when your plants arrive or when you collect them</small></span></label>
+          <p class="secure-note"><i class="fa-solid fa-lock"></i> Card details are entered in Square’s PCI-compliant form and are never stored by Fog & Fern SF.</p>
+          <div id="payment-message" class="payment-message" role="alert" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <aside class="summary checkout-summary">
+        <h2>Your order</h2>
+        <% items.forEach(item => { %><div><span><%= item.name %> × <%= item.quantity %></span><strong>$<%= item.line_total.toFixed(2) %></strong></div><% }) %>
+        <hr>
+        <div><span>Subtotal</span><strong>$<span id="checkout-subtotal"><%= subtotal.toFixed(2) %></span></strong></div>
+        <div><span>Tax</span><strong>$<span id="checkout-tax"><%= tax.toFixed(2) %></span></strong></div>
+        <div><span>Delivery</span><strong id="delivery-fee">$<%= subtotal < 75 ? '9.00' : '0.00' %></strong></div>
+        <div class="checkout-total"><span>Total</span><strong>$<span id="checkout-total"><%= (subtotal + tax + (subtotal < 75 ? 9 : 0)).toFixed(2) %></span></strong></div>
+        <p>$9 local delivery on orders under $75. Store pickup is free.</p>
+        <button id="place-order-button" class="btn-green block" type="submit"><span>Place secure order</span></button>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<% if (squareConfigured) { %>
+<script src="<%= squareWebSdkUrl %>"></script>
+<script>
+  window.FOG_FERN_SQUARE = {
+    applicationId: <%- JSON.stringify(squareApplicationId) %>,
+    locationId: <%- JSON.stringify(squareLocationId) %>
+  };
+</script>
+<% } %>
+<script src="/js/checkout.js"></script>
