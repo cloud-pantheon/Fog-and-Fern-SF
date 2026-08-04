@@ -1,0 +1,10 @@
+node_modules/
+.env
+plant-shop.db
+plant-shop.db-shm
+plant-shop.db-wal
+sessions.db
+uploads/products/*
+!uploads/products/.gitkeep
+npm-debug.log*
+.DS_Store
