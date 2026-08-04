@@ -420,7 +420,7 @@ Before accepting real payments:
 
 ### 🏠 Home Page
 
-![Fog & Fern home page](screenshots/Homepage.PNG)
+![Fog & Fern home page](screenshots/homepage.PNG)
 
 ### 🌿 Plant Catalog
 
