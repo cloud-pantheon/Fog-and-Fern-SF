@@ -418,6 +418,10 @@ Before accepting real payments:
 
 ## 📸 Screenshots
 
+### 🏠 Home Page
+
+![Fog & Fern home page](screenshots/Homepage.PNG)
+
 ### 🌿 Plant Catalog
 
 ![Fog & Fern plant catalog](screenshots/Plants.PNG)
